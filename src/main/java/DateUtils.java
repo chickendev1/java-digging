@@ -1,17 +1,32 @@
+import java.text.DateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Thanh Mai on 3/20/2018.
  */
 public class DateUtils {
-    //format Date : dd MM yyyy
-    public static String formatDate(String formatDate){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
-        //String one = date.format(formatter);
-        //System.out.println("Format Date: "+one);
-        return "OK";
+    public static final String FORMAT_DATE = "dd-MM-yyyy";
+    public static final String FORMAT_DATE_SLASH = "MM/dd/yy";
+    public static final String FORMAT_TIME = "h:mm a";
+    public static final String FORMAT_TIME_SEC = "h:mm:ss a";
+    public static final String FORMAT_DATE_TIME = "dd-MM-yyyy h:mm a";
+    public static final String FORMAT_DATE_TIME_SEC = "dd-MM-yyyy h:mm:ss a";
+
+    public static String formatDate(Object date, String formatDate) throws Exception {
+        return formatDateTime(date, formatDate);
+    }
+
+    private static String formatDateTime(Object date, String formatDate) throws Exception {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formatDate);
+        if (date instanceof LocalDate) {
+            return ((LocalDate)date).format(formatter);
+        } else if (date instanceof LocalDateTime) {
+            return ((LocalDateTime)date).format(formatter);
+        }
+        throw new Exception("Date must be instance of LocalDate or LocalDateTime");
     }
 
     public static LocalDateTime convertDToLDT(Date date){
@@ -20,6 +35,11 @@ public class DateUtils {
 
     public static Date convertLDTToD(LocalDateTime localDate) {
         return null;
+    }
+
+    public static String getDateFormat(Date date) {
+        DateFormat dateInstance = DateFormat.getDateInstance(DateFormat.SHORT, Locale.UK);
+        return dateInstance.format(date);
     }
 
     public static String localDateToOutputString(LocalDate localDate, DateTimeFormatter dateTimeFormatter) {
