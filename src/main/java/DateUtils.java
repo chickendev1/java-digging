@@ -1,4 +1,5 @@
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -25,57 +26,42 @@ public class DateUtils {
             return ((LocalDate)date).format(formatter);
         } else if (date instanceof LocalDateTime) {
             return ((LocalDateTime)date).format(formatter);
+        } else if (date instanceof Date) {
+            return new SimpleDateFormat(formatDate).format((Date)date);
         }
         throw new Exception("Date must be instance of LocalDate or LocalDateTime");
     }
 
-    public static LocalDateTime convertDToLDT(Date date){
+    public static LocalDate convertDateToLocalDate(Date date){
+        ZoneId defaultZoneId = ZoneId.systemDefault();
+        //Convert Date -> ZonedDateTime
+        ZonedDateTime zonedDateTime = Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault());
+        //ZonedDateTime -> LocalDate
+        return zonedDateTime.toLocalDate();
+    }
+
+    public static LocalDateTime convertDateToLocalDateTime(Date date){
+        ZoneId defaultZoneId = ZoneId.systemDefault();
+        //Convert Date -> Instant
+        Instant instant = date.toInstant();
+        //Instant + system default time zone + toLocalDateTime() = LocalDateTime
+        return instant.atZone(defaultZoneId).toLocalDateTime();
+    }
+
+    public static Date convertLocalDateToDate(LocalDate localDate) {
+        ZoneId defaultZoneId = ZoneId.systemDefault();
+        //Convert LocalDateTime -> Instant
+        Instant instant = localDate.atStartOfDay(defaultZoneId).toInstant();
+        return Date.from(instant);
+    }
+
+    public static Date convertLocalDateTimeToDate(LocalDateTime localDateTime) {
+        ZoneOffset defaultZoneOffset = OffsetDateTime.now().getOffset();
+        Instant instant = localDateTime.toInstant(defaultZoneOffset);
+        return Date.from(instant);
+    }
+
+    public static String convertJsonToLocalDate(Date date) {
         return null;
     }
-
-    public static Date convertLDTToD(LocalDateTime localDate) {
-        return null;
-    }
-
-    public static String getDateFormat(Date date) {
-        DateFormat dateInstance = DateFormat.getDateInstance(DateFormat.SHORT, Locale.UK);
-        return dateInstance.format(date);
-    }
-
-    public static String localDateToOutputString(LocalDate localDate, DateTimeFormatter dateTimeFormatter) {
-        if(localDate == null) {
-            return null;
-        } else {
-            LocalDateTime localDateTime = LocalDateTime.of(localDate, LocalTime.of(0, 0, 0));
-            ZonedDateTime dateTimeWithZone = localDateTime.atZone(ZoneId.of("+00:00"));
-            return dateTimeFormatter == null?dateTimeWithZone.format(DateTimeFormatter.ISO_ZONED_DATE_TIME):dateTimeWithZone.format(dateTimeFormatter);
-        }
-    }
-
-    public static LocalDate zonedStringToLocalDate(String str) {
-        ZonedDateTime dateTimeWithZone = ZonedDateTime.parse(str);
-        dateTimeWithZone = dateTimeWithZone.withZoneSameInstant(ZoneId.of("+00:00"));
-        return LocalDate.from(dateTimeWithZone);
-    }
-
-    public static String localDateTimeToOutputString(LocalDateTime localDateTime) {
-        return localDateTimeToOutputString(localDateTime, (DateTimeFormatter)null);
-    }
-
-    private static String localDateTimeToOutputString(LocalDateTime localDateTime, DateTimeFormatter dateTimeFormatter) {
-        if(localDateTime == null) {
-            return null;
-        } else {
-            LocalDateTime localDateTimeWithoutNanoSecond = localDateTime.withNano(0);
-            ZonedDateTime dateTimeWithZone = localDateTimeWithoutNanoSecond.atZone(ZoneId.of("+00:00"));
-            return dateTimeFormatter == null?dateTimeWithZone.format(DateTimeFormatter.ISO_ZONED_DATE_TIME):dateTimeWithZone.format(dateTimeFormatter);
-        }
-    }
-
-    public static LocalDateTime zonedStringToLocalDateTime(String str) {
-        ZonedDateTime dateTimeWithZone = ZonedDateTime.parse(str);
-        dateTimeWithZone = dateTimeWithZone.withZoneSameInstant(ZoneId.of("+00:00"));
-        return LocalDateTime.from(dateTimeWithZone);
-    }
-
 }

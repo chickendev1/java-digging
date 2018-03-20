@@ -1,6 +1,8 @@
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -57,7 +59,32 @@ public class DateUtilsTest {
     }
 
     @Test
-    public  void getDateFormatTest() {
+    public  void convertDateToLocalDateTest() throws Exception {
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        Date date = dateFormat.parse("11-12-2012");
+        LocalDate localDate = DateUtils.convertDateToLocalDate(date);
+        Assert.assertEquals("11-12-2012", DateUtils.formatDate(localDate, DateUtils.FORMAT_DATE));
+    }
 
+    @Test
+    public  void convertDateToLocalDateTimeTest() throws Exception {
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        Date date = dateFormat.parse("11-12-2012");
+        LocalDateTime localDateTime = DateUtils.convertDateToLocalDateTime(date);
+        Assert.assertEquals("11-12-2012 12:00 AM", DateUtils.formatDate(localDateTime, DateUtils.FORMAT_DATE_TIME));
+    }
+
+    @Test
+    public void convertLocalDateTimeToDate() throws Exception {
+        LocalDateTime localDateTime = LocalDateTime.of(2016, 12, 20, 14, 30, 40, 55);
+        Date date = DateUtils.convertLocalDateTimeToDate(localDateTime);
+        Assert.assertEquals("20-12-2016", DateUtils.formatDate(date, DateUtils.FORMAT_DATE));
+    }
+
+    @Test
+    public void convertLocalDateToDate() throws Exception {
+        LocalDate localDate = LocalDate.of(2016, 12, 20);
+        Date date = DateUtils.convertLocalDateToDate(localDate);
+        Assert.assertEquals("20-12-2016", DateUtils.formatDate(date, DateUtils.FORMAT_DATE));
     }
 }
