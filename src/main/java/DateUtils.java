@@ -1,9 +1,7 @@
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.Locale;
 
 /**
  * Created by Thanh Mai on 3/20/2018.
@@ -61,7 +59,17 @@ public class DateUtils {
         return Date.from(instant);
     }
 
-    public static String convertJsonToLocalDate(Date date) {
-        return null;
+    public static String calculateDuration(LocalDateTime date1, LocalDateTime date2) {
+        Duration duration = Duration.between(date1, date2);
+        // total seconds of difference (using Math.abs to avoid negative values)
+        long seconds = Math.abs(duration.getSeconds());
+        long days = seconds / (24 * 60 * 60); // 24h * 60m * 60s
+        seconds -= (days * 24 * 60 * 60);
+        long hours = seconds / (60 * 60); // 60m * 60s
+        seconds -= (hours * 3600);
+        long minutes = seconds / 60;
+        seconds -= (minutes * 60);
+
+        return days + " days " + hours + " hours " + minutes + " minutes " + seconds + " seconds";
     }
 }

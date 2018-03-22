@@ -87,4 +87,19 @@ public class DateUtilsTest {
         Date date = DateUtils.convertLocalDateToDate(localDate);
         Assert.assertEquals("20-12-2016", DateUtils.formatDate(date, DateUtils.FORMAT_DATE));
     }
+
+    @Test
+    public void calculateDateTime() throws Exception {
+        LocalDateTime fromDate = LocalDateTime.of(2016, 12, 20, 11, 11, 55);
+        LocalDateTime toDate = LocalDateTime.of(2016, 12, 20, 11, 12);
+        Assert.assertEquals("0 days 0 hours 0 minutes 5 seconds", DateUtils.calculateDuration(fromDate, toDate));
+
+        LocalDateTime fromDate1 = LocalDateTime.of(2016, 12, 20, 11, 50);
+        LocalDateTime toDate1 = LocalDateTime.of(2016, 12, 21, 11, 10);
+        Assert.assertEquals("0 days 23 hours 20 minutes 0 seconds", DateUtils.calculateDuration(fromDate1, toDate1));
+
+        LocalDateTime fromDate2 = LocalDateTime.of(2016, 12, 20, 11, 50);
+        LocalDateTime toDate2 = LocalDateTime.of(2016, 12, 21, 11, 50);
+        Assert.assertEquals("1 days 0 hours 0 minutes 0 seconds", DateUtils.calculateDuration(fromDate2, toDate2));
+    }
 }
