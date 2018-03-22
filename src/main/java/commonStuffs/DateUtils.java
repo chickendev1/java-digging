@@ -1,3 +1,5 @@
+package commonStuffs;
+
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;

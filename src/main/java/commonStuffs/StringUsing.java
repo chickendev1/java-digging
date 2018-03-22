@@ -1,3 +1,5 @@
+package commonStuffs;
+
 /**
  * Created by Thanh Mai on 3/22/2018.
  */

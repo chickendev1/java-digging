@@ -1,3 +1,5 @@
+package commonStuffs;
+
 import models.Payslip;
 
 import java.math.BigDecimal;
