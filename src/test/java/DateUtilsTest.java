@@ -1,3 +1,4 @@
+
 import commonStuffs.DateUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,8 +14,8 @@ import java.util.Date;
 /**
  * Created by Thanh Mai on 3/20/2018.
  */
-
 public class DateUtilsTest {
+
     @Test
     public void formatDateTest() throws Exception {
         //Test date
@@ -60,7 +61,7 @@ public class DateUtilsTest {
     }
 
     @Test
-    public  void convertDateToLocalDateTest() throws Exception {
+    public void convertDateToLocalDateTest() throws Exception {
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         Date date = dateFormat.parse("11-12-2012");
         LocalDate localDate = DateUtils.convertDateToLocalDate(date);
@@ -68,7 +69,7 @@ public class DateUtilsTest {
     }
 
     @Test
-    public  void convertDateToLocalDateTimeTest() throws Exception {
+    public void convertDateToLocalDateTimeTest() throws Exception {
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         Date date = dateFormat.parse("11-12-2012");
         LocalDateTime localDateTime = DateUtils.convertDateToLocalDateTime(date);

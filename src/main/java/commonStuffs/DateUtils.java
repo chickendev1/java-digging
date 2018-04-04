@@ -9,6 +9,7 @@ import java.util.Date;
  * Created by Thanh Mai on 3/20/2018.
  */
 public class DateUtils {
+
     public static final String FORMAT_DATE = "dd-MM-yyyy";
     public static final String FORMAT_DATE_SLASH = "MM/dd/yy";
     public static final String FORMAT_TIME = "h:mm a";
@@ -16,23 +17,23 @@ public class DateUtils {
     public static final String FORMAT_DATE_TIME = "dd-MM-yyyy h:mm a";
     public static final String FORMAT_DATE_TIME_SEC = "dd-MM-yyyy h:mm:ss a";
 
-    public static String formatDate(Object date, String formatDate) throws Exception {
+    public static String formatDate(Object date, String formatDate) throws Exception {  
         return formatDateTime(date, formatDate);
     }
 
     private static String formatDateTime(Object date, String formatDate) throws Exception {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formatDate);
         if (date instanceof LocalDate) {
-            return ((LocalDate)date).format(formatter);
+            return ((LocalDate) date).format(formatter);
         } else if (date instanceof LocalDateTime) {
-            return ((LocalDateTime)date).format(formatter);
+            return ((LocalDateTime) date).format(formatter);
         } else if (date instanceof Date) {
-            return new SimpleDateFormat(formatDate).format((Date)date);
+            return new SimpleDateFormat(formatDate).format((Date) date);
         }
         throw new Exception("Date must be instance of LocalDate or LocalDateTime");
     }
 
-    public static LocalDate convertDateToLocalDate(Date date){
+    public static LocalDate convertDateToLocalDate(Date date) {
         ZoneId defaultZoneId = ZoneId.systemDefault();
         //Convert Date -> ZonedDateTime
         ZonedDateTime zonedDateTime = Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault());
@@ -40,7 +41,7 @@ public class DateUtils {
         return zonedDateTime.toLocalDate();
     }
 
-    public static LocalDateTime convertDateToLocalDateTime(Date date){
+    public static LocalDateTime convertDateToLocalDateTime(Date date) {
         ZoneId defaultZoneId = ZoneId.systemDefault();
         //Convert Date -> Instant
         Instant instant = date.toInstant();
